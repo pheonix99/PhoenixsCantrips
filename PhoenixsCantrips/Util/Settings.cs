@@ -18,8 +18,15 @@ namespace PhoenixsCantrips.Util
         private static readonly string RootStringKey = "PhoenixCantrips.Settings";
         internal static void Init()
         {
-            ModMenu.ModMenu.AddSettings(SettingsBuilder.New("phoenixcantripssettings", LocalizationTool.CreateString("PhoenixCantripsSettings.Name", "Pheonix's Cantrips")).AddToggle(Toggle.New("phoenixcantripssettings-master", true, LocalizationTool.CreateString("PhoenixCantripsSettings-Master.Name", "Enable Mod Functions"))));
+            var settingsBuilder = SettingsBuilder.New(RootKey, LocalizationTool.CreateString("PhoenixCantripsSettings.Name", "Pheonix's Cantrips"));
+            settingsBuilder.AddToggle(Toggle.New("phoenixcantripssettings-master", true, LocalizationTool.CreateString("PhoenixCantripsSettings-Master.Name", "Enable Mod Functions")));
+            settingsBuilder.AddToggle(Toggle.New("phoenixcantripssettings-proliferate-elementalmystery", true, LocalizationTool.CreateString("PhoenixCantripsSettings-Proliferate-ElementalMystery.Name", "Spread Elemental Damage Cantrips To Elemental Oracle Mysteries")));
+            settingsBuilder.AddToggle(Toggle.New("phoenixcantripssettings-proliferate-winterpatron", true, LocalizationTool.CreateString("PhoenixCantripsSettings-Proliferate-WinterPatron.Name", "Spread Ray Of Frost to Winter Witch Patron")));
+            settingsBuilder.AddToggle(Toggle.New("phoenixcantripssettings-proliferate-winterwitchprc", true, LocalizationTool.CreateString("PhoenixCantripsSettings-Proliferate-WinterWitchPRC.Name", "Spread Ray Of Frost to Winter Witch Prestige Class")));
+            ModMenu.ModMenu.AddSettings(settingsBuilder);
         }
+
+    
 
         private static void OnDefaultsApplied()
         {

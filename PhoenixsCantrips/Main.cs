@@ -71,8 +71,10 @@ namespace PhoenixsCantrips
 
                     // Then settings
                     Settings.Init();
-
+                    RegisterCantrips.Do();
                     ModifySpells();
+
+                    ModifySpellcasters();
                 }
                 catch (Exception e)
                 {
@@ -121,7 +123,7 @@ namespace PhoenixsCantrips
 
         private static void ModifySpellcasters()
         {
-
+            ProliferateCantrips.Proliferate();
         }
             
     }
