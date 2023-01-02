@@ -72,6 +72,7 @@ namespace PhoenixsCantrips.Spells
                 x.m_UseMax = true;
                 x.m_Max = 10;
             });
+            Main.Context.Logger.LogPatch("Patched scaling on", buff);
         }
     }
 }

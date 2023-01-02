@@ -4,11 +4,18 @@
     <LangVersion>latest</LangVersion>
     <!-- Set to net46 for Kingmaker -->
     <TargetFramework>net472</TargetFramework>
+    <Configurations>Debug;Release;ReleaseForRealz</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <OutputPath>bin\Debug\PhoenixsCantrips\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseForRealz|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputPath>bin\Release2\PhoenixsCantrips\</OutputPath>
+    <Optimize>false</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -50,12 +57,12 @@
   <Target Name="Publicize" AfterTargets="Clean">
     <ItemGroup>
       <Assemblies Include="$(WrathPath)\Wrath_Data\Managed\Assembly-CSharp.dll" />
-      <PublicAssembly Include="$(SolutionDir)lib\Assembly-CSharp_public.dll" /> 
-       <RenamedAssembly Include="$(SolutionDir)\lib\Assembly-CSharp.dll" /> 
+     <!-- <PublicAssembly Include="$(SolutionDir)lib\Assembly-CSharp_public.dll" /> 
+       <RenamedAssembly Include="$(SolutionDir)\lib\Assembly-CSharp.dll" /> -->
     </ItemGroup>
    <Message Text="Publicizing: @(PublicAssembly) into @(RenamedAssembly)" Importance="High" /> 
     <PublicizeTask InputAssemblies="@(Assemblies)" OutputDir="$(SolutionDir)lib/" />
-    <!--<Move SourceFiles="@(PublicAssembly)" DestinationFiles="@(RenamedAssembly)" />-->
+    <Move SourceFiles="@(PublicAssembly)" DestinationFiles="@(RenamedAssembly)" />
   </Target>
 
   <ItemGroup>
@@ -68,10 +75,10 @@
     <!-- Wrath Assemblies -->
     <Reference Include="Assembly-CSharp-firstpass.dll">
       <HintPath>$(WrathPath)\Wrath_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
-      <Private>true</Private>
+     
     </Reference>
     <Reference Include="ModMenu">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Pathfinder Second Adventure\Mods\ModMenu\ModMenu.dll</HintPath>
+      <HintPath>$(WrathPath)\Mods\ModMenu\ModMenu.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>$(WrathPath)\Wrath_Data\Managed\Newtonsoft.Json.dll</HintPath>
@@ -94,13 +101,14 @@
     <Reference Include="UnityEngine">
       <HintPath>$(WrathPath)\Wrath_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(WrathPath)\Wrath_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
 
     <!-- UMM & Harmony -->
     <Reference Include="0Harmony">
       <HintPath>$(WrathPath)\Wrath_Data\Managed\UnityModManager\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(WrathPath)\Wrath_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+     
     </Reference>
     <Reference Include="UnityModManager">
       <HintPath>$(WrathPath)\Wrath_Data\Managed\UnityModManager\UnityModManager.dll</HintPath>
@@ -122,9 +130,9 @@
     </ItemGroup>
 
     <Copy SourceFiles="@(Assembly)" DestinationFolder="$(WrathPath)\Mods\$(MSBuildProjectName)" />
-    <Copy SourceFiles="@(Assembly)" DestinationFolder="C:\ModReleaseCandidates\PhoenixCantrips" />
+    <Copy SourceFiles="@(Assembly)" DestinationFolder="C:\ModReleaseCandidates\$(MSBuildProjectName)" />
     <Copy SourceFiles="@(ModConfig)" DestinationFolder="$(WrathPath)\Mods\$(MSBuildProjectName)" />
-    <Copy SourceFiles="@(ModConfig)" DestinationFolder="C:\ModReleaseCandidates\PhoenixCantrips" />
+    <Copy SourceFiles="@(ModConfig)" DestinationFolder="C:\ModReleaseCandidates\$(MSBuildProjectName)" />
   
   </Target>
 
