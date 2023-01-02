@@ -1,7 +1,8 @@
 ﻿using BlueprintCore.Blueprints.CustomConfigurators.Classes;
+using BlueprintCore.Blueprints.CustomConfigurators.Classes.Spells;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Utils;
-
+using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Prerequisites;
 using Kingmaker.Blueprints.Classes.Selection;
@@ -12,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TabletopTweaks.Core.Utilities;
+//using TabletopTweaks.Core.Utilities;
 
 namespace PhoenixsCantrips.Spells
 {
@@ -35,6 +36,33 @@ namespace PhoenixsCantrips.Spells
             ProliferateWitch();
 
             ProliferateWinterWitch();
+            //ProliferateShaman();
+        }
+
+        private static void ProliferateShaman()
+        {
+            if (ModMenu.ModMenu.GetSettingValue<bool>("phoenixcantripssettings-proliferate-shamanspirits"))
+            {
+                AddToSpellList("RayOfFrost", "bbae401660bbad94c865d71029d8439e");
+                AddToSpellList("AcidSplash", "87a3e296757412e45910493e5fed1417");
+                AddToSpellList("Jolt", "0bf6f90fdcb864b4486344100391b478");
+            }
+
+        }
+
+        private static void AddToSpellList(string spell, string spellList)
+        {
+            SpellListConfigurator.For(spellList).ModifySpellsByLevel(x =>
+            {
+                if (x.SpellLevel == 0)
+                {
+                    if (x.m_Spells == null)
+                        x.m_Spells = new();
+                    x.m_Spells.Add(BlueprintTool.GetRef<BlueprintAbilityReference>(spell));
+                    Main.Context.Logger.Log($"Patched {spell} onto spell list");
+                }
+
+            }).Configure();
         }
 
         private static void ProliferateWinterWitch()

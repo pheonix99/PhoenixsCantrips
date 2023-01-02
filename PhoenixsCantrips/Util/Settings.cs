@@ -20,9 +20,10 @@ namespace PhoenixsCantrips.Util
         {
             var settingsBuilder = SettingsBuilder.New(RootKey, LocalizationTool.CreateString("PhoenixCantripsSettings.Name", "Pheonix's Cantrips"));
             settingsBuilder.AddToggle(Toggle.New("phoenixcantripssettings-master", true, LocalizationTool.CreateString("PhoenixCantripsSettings-Master.Name", "Enable Mod Functions")));
-            settingsBuilder.AddToggle(Toggle.New("phoenixcantripssettings-proliferate-elementalmystery", true, LocalizationTool.CreateString("PhoenixCantripsSettings-Proliferate-ElementalMystery.Name", "Spread Elemental Damage Cantrips To Elemental Oracle Mysteries")));
-            settingsBuilder.AddToggle(Toggle.New("phoenixcantripssettings-proliferate-winterpatron", true, LocalizationTool.CreateString("PhoenixCantripsSettings-Proliferate-WinterPatron.Name", "Spread Ray Of Frost to Winter Witch Patron")));
-            settingsBuilder.AddToggle(Toggle.New("phoenixcantripssettings-proliferate-winterwitchprc", true, LocalizationTool.CreateString("PhoenixCantripsSettings-Proliferate-WinterWitchPRC.Name", "Spread Ray Of Frost to Winter Witch Prestige Class")));
+            settingsBuilder.AddToggle(Toggle.New("phoenixcantripssettings-proliferate-elementalmystery", true, LocalizationTool.CreateString("PhoenixCantripsSettings-Proliferate-ElementalMystery.Name", "Proliferate: Mysteries")).WithLongDescription(LocalizationTool.CreateString("PhoenixCantripsSettings-Proliferate-ElementalMystery.Desc", "Spread elemental ranged touch cantrips to related oracle mysteries. May not work on mod-added archetypes with custom mystery logic.")));
+            settingsBuilder.AddToggle(Toggle.New("phoenixcantripssettings-proliferate-winterpatron", true, LocalizationTool.CreateString("PhoenixCantripsSettings-Proliferate-WinterPatron.Name", "Proliferate: Winter Patron")).WithLongDescription(LocalizationTool.CreateString("PhoenixCantripsSettings-Proliferate-WinterPatron.Desc", "Spread Ray Of Frost to Witch's Winter Patron")));
+            //settingsBuilder.AddToggle(Toggle.New("phoenixcantripssettings-proliferate-shamanspirits", true, LocalizationTool.CreateString("PhoenixCantripsSettings-Proliferate-ShamanSpirits.Name", "Spread Elemental Damage Cantrips To Elemental Shaman Spirits")));
+            settingsBuilder.AddToggle(Toggle.New("phoenixcantripssettings-proliferate-winterwitchprc", true, LocalizationTool.CreateString("PhoenixCantripsSettings-Proliferate-WinterWitchPRC.Name", "Proliferate: Winter Witch")).WithLongDescription(LocalizationTool.CreateString("PhoenixCantripsSettings-Proliferate-WinterWitchPRC.Desc", "Spread Ray Of Frost to the Winter Witch prestige class")));
             ModMenu.ModMenu.AddSettings(settingsBuilder);
         }
 
