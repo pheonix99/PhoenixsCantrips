@@ -16,7 +16,7 @@ Winter Patron Witchs and Winter Witchs (the Prestige Class) get Ray of Frost
 
 Not currently working for archetypes that replace the mystery features with custom ones, will work if the mystery selector is replaced to limit selection ranges.
 
-
+See also [More Cantrips](https://github.com/pheonix99/MoreCantrips) for fire, sonic and melee touch cantrips
 
 ## Changelog
 
