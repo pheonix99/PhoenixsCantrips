@@ -7,7 +7,9 @@ using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Prerequisites;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Designers.Mechanics.Facts;
+using Kingmaker.Enums.Damage;
 using Kingmaker.UnitLogic.FactLogic;
+using PhoenixsCantrips.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,25 +21,53 @@ namespace PhoenixsCantrips.Spells
 {
     class ProliferateCantrips
     {
-        static Dictionary<string, List<string>> rangedCantripGroups = new();
+       
         static string oracleGUID = "20ce9bf8af32bee4c8557a045ab499b1";
+
+        
+
+
         public static void Proliferate()
         {
-            if (!ModMenu.ModMenu.GetSettingValue<bool>("phoenixcantripssettings-master"))
-                return;
-            rangedCantripGroups.Add("Frost", new List<string>() { "RayOfFrost" });
-            rangedCantripGroups.Add("Electricity", new List<string>() { "Jolt" });
-            rangedCantripGroups.Add("Acid", new List<string>() { "AcidSplash" });
-            rangedCantripGroups.Add("Fire", new List<string>() { });
+          
+           
 
 
 
             ProliferateOracle();
-            ProliferateWitch();
-
+            ProliferatePatrons();
+            JoltForMagus();
+            ProliferateSonic();
+            ProliferateCurse();
             ProliferateWinterWitch();
             //ProliferateShaman();
         }
+
+        private static void ProliferateSonic()
+        {
+            string arroswongGuid = "74f9286f6e8e46ba8de8995759759b2f";
+            string aivuGUID = "5972da2ee7724377b85fc91363c4b6c8";
+            if (RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic] != null && Settings.IsCharOpPlusEnabled() && Settings.IsEnabled("sonictoarrowsong"))
+            {
+                FeatureConfigurator.For("23d3d21793cc4ae6a034860c89561253").AddKnownSpell("b704d577abe54873b9228f56c2319b54", "772c83a25e2268e448e841dcd548235f", RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic], 0).Configure(delayed:true);
+
+                //AbilityConfigurator.For(RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic]).AddToSpellList(0, arroswongGuid, true).Configure();
+                Main.Context.Logger.Log($"Patched {RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic].NameSafe()} onto arrowsong");
+            }
+            if (RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic] != null && Settings.IsLevelableAivuEnabled() && Settings.IsEnabled("sonictoaivu"))
+            {
+                AbilityConfigurator.For(RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic]).AddToSpellList(0, aivuGUID, true).Configure();
+                Main.Context.Logger.Log($"Patched {RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic].NameSafe()} onto aivu");
+            }
+            if (RegisterCantrips.meleeCantrips[DamageEnergyType.Sonic] != null && Settings.IsLevelableAivuEnabled() && Settings.IsEnabled("sonictoaivu"))
+            {
+                AbilityConfigurator.For(RegisterCantrips.meleeCantrips[DamageEnergyType.Sonic]).AddToSpellList(0, aivuGUID, true).Configure();
+                Main.Context.Logger.Log($"Patched {RegisterCantrips.meleeCantrips[DamageEnergyType.Sonic].NameSafe()} onto aivu");
+            }
+           
+
+        }
+
 
         private static void ProliferateShaman()
         {
@@ -48,6 +78,14 @@ namespace PhoenixsCantrips.Spells
                 AddToSpellList("Jolt", "0bf6f90fdcb864b4486344100391b478");
             }
 
+        }
+
+        private static void JoltForMagus()
+        {
+            if (Settings.IsEnabled("joltformagus"))
+            {
+                AbilityConfigurator.For("Jolt").AddToSpellLists(0, SpellList.Magus).Configure();
+            }
         }
 
         private static void AddToSpellList(string spell, string spellList)
@@ -67,7 +105,7 @@ namespace PhoenixsCantrips.Spells
 
         private static void ProliferateWinterWitch()
         {
-            if (ModMenu.ModMenu.GetSettingValue<bool>("phoenixcantripssettings-proliferate-winterwitchprc"))
+            if (Settings.IsEnabled("winterwitch"))
             {
                 var spellbookselecter = BlueprintTool.Get<BlueprintFeatureSelection>("ea20b26d9d0ede540af3c74246dade41");
                 foreach (var feature in spellbookselecter.m_AllFeatures)
@@ -86,9 +124,22 @@ namespace PhoenixsCantrips.Spells
             }
         }
 
-        private static void ProliferateWitch()
+        private static void ProliferateCurse()
         {
-            if (ModMenu.ModMenu.GetSettingValue<bool>("phoenixcantripssettings-proliferate-winterpatron"))
+            if (Settings.IsEnabled("cursesblackened") && RegisterCantrips.rangedCantrips[DamageEnergyType.Fire] is not null)
+            {
+
+                ProgressionConfigurator.For("ca1e4627a1ad8fc4f83158f6497d5c54").AddKnownSpell(characterClass: "1b9873f1e7bfe5449bc84d03e9c8e3cc", spell: RegisterCantrips.rangedCantrips[DamageEnergyType.Fire], spellLevel: 0).Configure();
+                ProgressionConfigurator.For("ca1e4627a1ad8fc4f83158f6497d5c54").AddKnownSpell(characterClass: "1b9873f1e7bfe5449bc84d03e9c8e3cc",  archetype: "c5f6e53e71059fb4d802ce81a277a12d", spell: RegisterCantrips.rangedCantrips[DamageEnergyType.Fire], spellLevel: 0).Configure();
+                Main.Context.Logger.Log($"Patched Firebolt onto Blackened Curse");
+            }
+
+        }
+
+        private static void ProliferatePatrons()
+        {
+            //TODO improve to use the setup from oracle
+            if (Settings.IsEnabled("elementalpatron"))
             {
                 ProgressionConfigurator.For("e98d8d9f907c1814aa7376d6cdaac012").AddKnownSpell(characterClass: "1b9873f1e7bfe5449bc84d03e9c8e3cc", spell: "RayOfFrost", spellLevel: 0).Configure();
                 Main.Context.Logger.Log($"Patched Ray Of Frost onto Winter Patron");
@@ -96,18 +147,17 @@ namespace PhoenixsCantrips.Spells
         }
         private static void ProliferateOracle()
         {
-            Dictionary<string, string> SpellsFeatureToGroupPairing = new();
-            bool toProliferate = false;
-            if (ModMenu.ModMenu.GetSettingValue<bool>("phoenixcantripssettings-proliferate-elementalmystery"))
-            {
-                SpellsFeatureToGroupPairing.Add("9a70e449c1f5c7548ab210a40c5f1890", "Frost");
-                SpellsFeatureToGroupPairing.Add("efe346f6fec1ea84d84daa9eefdef204", "Fire");
-                SpellsFeatureToGroupPairing.Add("f482b5b69aaab72489d1f0da74743106", "Electricity");
-                SpellsFeatureToGroupPairing.Add("210fd7d1314eabb45b8b51b41937d315", "Acid");
-                toProliferate = true;
-            }
-            if (!toProliferate)
+            if (!Settings.IsEnabled("ElementalMystery"))
                 return;
+
+            Dictionary<string, DamageEnergyType> SpellsFeatureToGroupPairing = new();
+           
+          
+                SpellsFeatureToGroupPairing.Add("9a70e449c1f5c7548ab210a40c5f1890", DamageEnergyType.Cold);
+                SpellsFeatureToGroupPairing.Add("efe346f6fec1ea84d84daa9eefdef204", DamageEnergyType.Fire);
+                SpellsFeatureToGroupPairing.Add("f482b5b69aaab72489d1f0da74743106", DamageEnergyType.Electricity);
+                SpellsFeatureToGroupPairing.Add("210fd7d1314eabb45b8b51b41937d315", DamageEnergyType.Acid);
+         
             List<string> OracleMysterySelectors = new() { "5531b975dcdf0e24c98f1ff7e017e741", "c11ff5dbd8518c941849b3112d4d6b68", "9d5fdd3b4a6cd4f40beddbc72b2c07a0" };
             List<string> patched = new();
             foreach (string s in OracleMysterySelectors)
@@ -122,16 +172,15 @@ namespace PhoenixsCantrips.Spells
                     if (l2 != null)
                     {
                         bool patchedThis = false;
-                        if (SpellsFeatureToGroupPairing.TryGetValue(l2.m_Feature.deserializedGuid.ToString().Replace("-", ""), out string groupkey))
+                        if (SpellsFeatureToGroupPairing.TryGetValue(l2.m_Feature.deserializedGuid.ToString().Replace("-", ""), out var groupkey))
                         {
-                            if (rangedCantripGroups.TryGetValue(groupkey, out var spells))
+                            if (RegisterCantrips.rangedCantrips.TryGetValue(groupkey, out var spells))
                             {
-                                foreach (string spellkey in spells)
-                                {
-                                    FeatureConfigurator.For(mystery).AddKnownSpell(characterClass: oracleGUID, spell: spellkey, spellLevel: 0).Configure();
-                                    Main.Context.Logger.LogPatch($"Patched {spellkey} onto mystery", mystery);
+                                
+                                    FeatureConfigurator.For(mystery).AddKnownSpell(characterClass: oracleGUID, spell: spells, spellLevel: 0).Configure();
+                                    Main.Context.Logger.LogPatch($"Patched {spells.NameSafe()} onto mystery", mystery);
                                     patchedThis = true;
-                                }
+                                
                             }
                         }
                         if (patchedThis)

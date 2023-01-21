@@ -15,9 +15,18 @@ Oracles with elemental mysteries that don't get their mystery spell lists replac
 Winter Patron Witchs and Winter Witchs (the Prestige Class) get Ray of Frost
 
 Not currently working for archetypes that replace the mystery features with custom ones, will work if the mystery selector is replaced to limit selection ranges.
-Not currently working for Flames mystery, need to make fire ranged cantrip.
+
+
 
 ## Changelog
+
+### 1.0.0
+Proliferated Jolt to Magus.
+
+More Cantrips component and interoperability added.
+-- Firebolt for Flame Oracles and Blackened Curse bearers
+-- Painful Note (sonic ranged) to Arrowsong Minstrel from Character Options Plus and Aivu if Levelable Aivu is on
+-- Dissonant Touch (sonic melee) to Aivu if Levelable Aivu is on
 
 ### 0.2.0
 Added descriptions
@@ -32,7 +41,5 @@ Initial Release
 Proliferation of existing elemental damage cantrips to appropriate vanilla domains/spirits.
 
 Proliferation of existing elemental damage cantrips to dragon disciple (for spont casters who don't get them already - spont witch/bard/nature mage/skald)
-
-Additional elemental damage cantrips - fire ranged, elemental touch for all elements.
 
 Improved mod interop

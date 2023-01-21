@@ -27,7 +27,7 @@ namespace PhoenixsCantrips
         {
             try
             {
-                Enabled = true;
+                //Enabled = true;
 
                 Harmony harmony = new Harmony(modEntry.Info.Id);
                 Context = new CantripsContext(modEntry);
@@ -71,10 +71,8 @@ namespace PhoenixsCantrips
 
                     // Then settings
                     Settings.Init();
-                    RegisterCantrips.Do();
-                    ModifySpells();
-
-                    ModifySpellcasters();
+                   
+                    
                 }
                 catch (Exception e)
                 {
@@ -94,7 +92,10 @@ namespace PhoenixsCantrips
                     InitializeDelayed = true;
 
                     //ConfigureFeatsDelayed();
+                    RegisterCantrips.Do();
+                    ModifySpells();
 
+                    ModifySpellcasters();
                     RootConfigurator.ConfigureDelayedBlueprints();
                 }
                 catch (Exception e)

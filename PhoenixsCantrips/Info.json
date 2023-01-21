@@ -1,12 +1,12 @@
 ﻿{
   "Id": "PhoenixsCantrips",
-  "DisplayName": "Phoenix's Cantrips",
+  "DisplayName": "Pheonix's Cantrips - Base",
   "Author": "pheonix99",
-  "Version": "0.2.0",
+  "Version": "1.0.0",
   "ManagerVersion": "0.21.3",
   "AssemblyName": "PhoenixsCantrips.dll",
   "EntryMethod": "PhoenixsCantrips.Main.Load",
   "HomePage": "https://github.com/pheonix99/PhoenixsCantrips/releases",
   "Requirements": [ "TabletopTweaks-Core", "ModMenu-1.1.0" ],
-  "LoadAfter": [ "TabletopTweaks-Core" ]
+  "LoadAfter": [ "TabletopTweaks-Core", "CharacterOptionsPlus" ]
 }

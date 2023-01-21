@@ -10,6 +10,7 @@ using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.Components;
+using PhoenixsCantrips.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +24,21 @@ namespace PhoenixsCantrips.Spells
     {
         public static void Do()
         {
-            if (!ModMenu.ModMenu.GetSettingValue<bool>("phoenixcantripssettings-master"))
+            if (!Settings.IsEnabled("scaling"))
                 return;
-           
-            ModifyAttackCantrip("AcidSplash");//Acid Splash
-            ModifyAttackCantrip("DivineZap");//Divine Zap
-            ModifyAttackCantrip("Jolt");//Jolt
-            ModifyAttackCantrip("RayOfFrost");//Ray Of Frost
-            ModifyAttackCantrip("DisruptUndead");//Disrupt Undead
+           foreach(var v in RegisterCantrips.rangedCantrips)
+            {
+                ModifyAttackCantrip(v.Value);
+            }
+           foreach(var v in RegisterCantrips.meleeCantrips)
+            {
+                ModifyAttackCantrip(v.Value);
+            }
+
+         
+
+            ModifyAttackCantrip(BlueprintTool.GetRef<BlueprintAbilityReference>("DivineZap"));//Divine Zap
+            ModifyAttackCantrip(BlueprintTool.GetRef<BlueprintAbilityReference>("DisruptUndead"));//Disrupt Undead
             ModifyVirtue();
             // plus another die per two caster levels past first (maximum 6 dice).
             SetDesc("DivineZap", "You unleash your divine powers against a single target. The target takes {g|Encyclopedia:Dice}1d3{/g} points of divine {g|Encyclopedia:Damage}damage{/g}, plus another die per two caster levels past first (maximum 6d3). A successful {g|Encyclopedia:Saving_Throw}save{/g} halves the damage.");//Divine Zap
@@ -61,9 +69,17 @@ namespace PhoenixsCantrips.Spells
             Main.Context.Logger.LogPatch("Patched description on", spell);
         }
 
-        private static void ModifyAttackCantrip(string guid)
+        private static void ModifyAttackCantrip(BlueprintAbilityReference reference)
         {
-            var spell = BlueprintTool.Get<BlueprintAbility>(guid);
+
+
+            var spell = reference.Get();
+            AbilityEffectStickyTouch sticky = spell.GetComponent<AbilityEffectStickyTouch>();
+            if ( sticky != null)
+            {
+                spell = sticky.TouchDeliveryAbility;
+            }
+
             var dmg = spell.GetComponent<AbilityEffectRunAction>().Actions.Actions.FirstOrDefault(x => x is ContextActionDealDamage) as ContextActionDealDamage;
             dmg.Value.DiceCountValue.ValueType = Kingmaker.UnitLogic.Mechanics.ContextValueType.Rank;
             dmg.Value.DiceCountValue.ValueRank = Kingmaker.Enums.AbilityRankType.DamageDice;

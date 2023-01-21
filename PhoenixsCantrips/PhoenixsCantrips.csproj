@@ -40,7 +40,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="ILRepack.MSBuild.Task" Version="2.0.13" />
-    <PackageReference Include="WW-Blueprint-Core" Version="2.7.4" />
+    <PackageReference Include="WW-Blueprint-Core" Version="2.7.7" />
   </ItemGroup>
 
   
@@ -56,6 +56,7 @@
     <PublicizeTask InputAssemblies="@(Assemblies)" OutputDir="$(SolutionDir)lib/" />
     <Move SourceFiles="@(PublicAssembly)" DestinationFiles="@(RenamedAssembly)" />
     <Move SourceFiles="$(SolutionDir)lib\Assembly-CSharp_public.hash" DestinationFiles="$(SolutionDir)lib\Assembly-CSharp.hash" />
+    
   </Target>
   <!-- DLL Merging -->
   <Target Name="ILRepack" AfterTargets="Build">
@@ -156,10 +157,7 @@
     <Copy SourceFiles="@(ModConfig)" DestinationFolder="$(OutputPath)\$(AssemblyName)" />
  
 	 <Message Text="Copying zip  to $(OutputPath)\$(AssemblyName).zip" Importance="High" />
-    <ZipDirectory
-      SourceDirectory="$(OutputPath)\$(AssemblyName)"
-      DestinationFile="$(OutputPath)\$(AssemblyName).zip"
-      Overwrite="true"/>
+    <ZipDirectory SourceDirectory="$(OutputPath)\$(AssemblyName)" DestinationFile="C:\ModReleaseCandidates\$(AssemblyName).zip" Overwrite="true" />
   </Target>
  
 
