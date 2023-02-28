@@ -26,7 +26,8 @@ namespace PhoenixsCantrips.Spells
         {
             if (!Settings.IsEnabled("scaling"))
                 return;
-           foreach(var v in RegisterCantrips.rangedCantrips)
+            Main.Context.Logger.Log("Adding cantrip scaling");
+            foreach (var v in RegisterCantrips.rangedCantrips)
             {
                 ModifyAttackCantrip(v.Value);
             }
@@ -40,7 +41,10 @@ namespace PhoenixsCantrips.Spells
             ModifyAttackCantrip(BlueprintTool.GetRef<BlueprintAbilityReference>("DivineZap"));//Divine Zap
             ModifyAttackCantrip(BlueprintTool.GetRef<BlueprintAbilityReference>("DisruptUndead"));//Disrupt Undead
             ModifyVirtue();
+            
             // plus another die per two caster levels past first (maximum 6 dice).
+            //return;
+            Main.Context.Logger.Log("Updating cantrip descriptions");
             SetDesc("DivineZap", "You unleash your divine powers against a single target. The target takes {g|Encyclopedia:Dice}1d3{/g} points of divine {g|Encyclopedia:Damage}damage{/g}, plus another die per two caster levels past first (maximum 6d3). A successful {g|Encyclopedia:Saving_Throw}save{/g} halves the damage.");//Divine Zap
             SetDesc("Jolt", "You cause a spark of electricity to strike the target with a successful ranged {g|Encyclopedia:TouchAttack}touch attack{/g}. The {g|Encyclopedia:Spell}spell{/g} deals {g|Encyclopedia:Dice}1d3{/g} points of {g|Encyclopedia:Energy_Damage}electricity damage{/g}, plus another die per two caster levels past first (maximum 6d3).");//Jolt
             SetDesc("RayOfFrost", "A ray of freezing air and ice projects from your pointing finger. You must succeed on a ranged {g|Encyclopedia:TouchAttack}touch attack{/g} with the ray to deal {g|Encyclopedia:Damage}damage{/g} to a target. The ray deals {g|Encyclopedia:Dice}1d3{/g} points of {g|Encyclopedia:Energy_Damage}cold damage{/g}, plus another die per two caster levels past first (maximum 6d3).");//Jolt

@@ -30,7 +30,12 @@ namespace PhoenixsCantrips.Util
         {
             return ($"{RootKey}.{partialKey}").ToLower();
         }
-
+        internal static bool MoreCantripsEnabled()
+        {
+            return UnityModManager.modEntries.Where(
+                mod => mod.Info.Id.Equals("MoreCantrips") && mod.Enabled && !mod.ErrorOnLoading)
+              .Any();
+        }
 
         internal static bool IsCharOpPlusEnabled()
         {

@@ -45,21 +45,24 @@ namespace PhoenixsCantrips.Spells
 
         private static void ProliferateSonic()
         {
+            if (!Settings.MoreCantripsEnabled())
+                return;
+
             string arroswongGuid = "74f9286f6e8e46ba8de8995759759b2f";
             string aivuGUID = "5972da2ee7724377b85fc91363c4b6c8";
-            if (RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic] != null && Settings.IsCharOpPlusEnabled() && Settings.IsEnabled("sonictoarrowsong"))
+            if (RegisterCantrips.rangedCantrips.ContainsKey(DamageEnergyType.Sonic) && Settings.IsCharOpPlusEnabled() && Settings.IsEnabled("sonictoarrowsong") )
             {
                 FeatureConfigurator.For("23d3d21793cc4ae6a034860c89561253").AddKnownSpell("b704d577abe54873b9228f56c2319b54", "772c83a25e2268e448e841dcd548235f", RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic], 0).Configure(delayed:true);
 
                 //AbilityConfigurator.For(RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic]).AddToSpellList(0, arroswongGuid, true).Configure();
                 Main.Context.Logger.Log($"Patched {RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic].NameSafe()} onto arrowsong");
             }
-            if (RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic] != null && Settings.IsLevelableAivuEnabled() && Settings.IsEnabled("sonictoaivu"))
+            if (RegisterCantrips.rangedCantrips.ContainsKey(DamageEnergyType.Sonic) && Settings.IsLevelableAivuEnabled() && Settings.IsEnabled("sonictoaivu"))
             {
                 AbilityConfigurator.For(RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic]).AddToSpellList(0, aivuGUID, true).Configure();
                 Main.Context.Logger.Log($"Patched {RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic].NameSafe()} onto aivu");
             }
-            if (RegisterCantrips.meleeCantrips[DamageEnergyType.Sonic] != null && Settings.IsLevelableAivuEnabled() && Settings.IsEnabled("sonictoaivu"))
+            if (RegisterCantrips.meleeCantrips.ContainsKey(DamageEnergyType.Sonic) && Settings.IsLevelableAivuEnabled() && Settings.IsEnabled("sonictoaivu"))
             {
                 AbilityConfigurator.For(RegisterCantrips.meleeCantrips[DamageEnergyType.Sonic]).AddToSpellList(0, aivuGUID, true).Configure();
                 Main.Context.Logger.Log($"Patched {RegisterCantrips.meleeCantrips[DamageEnergyType.Sonic].NameSafe()} onto aivu");
@@ -85,6 +88,7 @@ namespace PhoenixsCantrips.Spells
             if (Settings.IsEnabled("joltformagus"))
             {
                 AbilityConfigurator.For("Jolt").AddToSpellLists(0, SpellList.Magus).Configure();
+                Main.Context.Logger.Log("Patched Jolt onto Magus");
             }
         }
 
@@ -108,6 +112,8 @@ namespace PhoenixsCantrips.Spells
             if (Settings.IsEnabled("winterwitch"))
             {
                 var spellbookselecter = BlueprintTool.Get<BlueprintFeatureSelection>("ea20b26d9d0ede540af3c74246dade41");
+                if (spellbookselecter == null)
+                    return;
                 foreach (var feature in spellbookselecter.m_AllFeatures)
                 {
                     BlueprintFeature pog = feature.Get();
@@ -126,7 +132,7 @@ namespace PhoenixsCantrips.Spells
 
         private static void ProliferateCurse()
         {
-            if (Settings.IsEnabled("cursesblackened") && RegisterCantrips.rangedCantrips[DamageEnergyType.Fire] is not null)
+            if (Settings.IsEnabled("cursesblackened") && RegisterCantrips.rangedCantrips.ContainsKey(DamageEnergyType.Fire) && Settings.MoreCantripsEnabled())
             {
 
                 ProgressionConfigurator.For("ca1e4627a1ad8fc4f83158f6497d5c54").AddKnownSpell(characterClass: "1b9873f1e7bfe5449bc84d03e9c8e3cc", spell: RegisterCantrips.rangedCantrips[DamageEnergyType.Fire], spellLevel: 0).Configure();

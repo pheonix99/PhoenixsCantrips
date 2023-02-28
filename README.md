@@ -20,6 +20,9 @@ See also [More Cantrips](https://github.com/pheonix99/MoreCantrips) for fire, so
 
 ## Changelog
 
+### 1.0.1
+Updated to 2.1 Beta
+
 ### 1.0.0
 Proliferated Jolt to Magus.
 
