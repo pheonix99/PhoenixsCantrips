@@ -2,7 +2,7 @@
   "Id": "PhoenixsCantrips",
   "DisplayName": "Pheonix's Cantrips - Base",
   "Author": "pheonix99",
-  "Version": "1.0.1",
+  "Version": "1.0.2",
   "ManagerVersion": "0.21.3",
   "AssemblyName": "PhoenixsCantrips.dll",
   "EntryMethod": "PhoenixsCantrips.Main.Load",

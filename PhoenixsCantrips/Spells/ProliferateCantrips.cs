@@ -48,13 +48,13 @@ namespace PhoenixsCantrips.Spells
             if (!Settings.MoreCantripsEnabled())
                 return;
 
-            string arroswongGuid = "74f9286f6e8e46ba8de8995759759b2f";
+          
             string aivuGUID = "5972da2ee7724377b85fc91363c4b6c8";
             if (RegisterCantrips.rangedCantrips.ContainsKey(DamageEnergyType.Sonic) && Settings.IsCharOpPlusEnabled() && Settings.IsEnabled("sonictoarrowsong") )
             {
                 FeatureConfigurator.For("23d3d21793cc4ae6a034860c89561253").AddKnownSpell("b704d577abe54873b9228f56c2319b54", "772c83a25e2268e448e841dcd548235f", RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic], 0).Configure(delayed:true);
 
-                //AbilityConfigurator.For(RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic]).AddToSpellList(0, arroswongGuid, true).Configure();
+                
                 Main.Context.Logger.Log($"Patched {RegisterCantrips.rangedCantrips[DamageEnergyType.Sonic].NameSafe()} onto arrowsong");
             }
             if (RegisterCantrips.rangedCantrips.ContainsKey(DamageEnergyType.Sonic) && Settings.IsLevelableAivuEnabled() && Settings.IsEnabled("sonictoaivu"))
